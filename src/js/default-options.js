@@ -1,4 +1,6 @@
 export default {
+    selector: '',
+    videoId: '',
     coverImage: '',
     cssClasses: {
         wrapper: 'c-youtube-player',

@@ -10,7 +10,6 @@ export default class {
         this.setCoverImage();
         this.setMarkup();
         this.createPlayerHtml();
-        this.setClassList();
     }
 
     setData() {
@@ -42,7 +41,7 @@ export default class {
     }
 
     createPlayerHtml() {
-        this.player.innerHTML = this.markup;
+        this.playerNode.innerHTML = this.markup;
     }
 
     setVideoId() {
@@ -66,7 +65,7 @@ export default class {
     }
 
     setMarkup() {
-        this.markup = `<div class="${this.classList}">
+        this.markup = `<div class="${this.options.cssClasses.wrapper}">
             <div class="${this.options.cssClasses.wrapperInner}">
                 <div id="${this.options.videoId}" class="${this.options.cssClasses.video}"></div>
                 <div class="${this.options.cssClasses.cover}" style="background-image:url(${this.options.coverImage})">

@@ -1,5 +1,6 @@
 export default {
     selector: '',
+    domNode: null,
     videoId: '',
     coverImage: '',
     cssClasses: {

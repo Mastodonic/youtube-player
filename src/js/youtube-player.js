@@ -4,12 +4,13 @@ import defaults from './default-options';
 export default class {
     constructor(options) {
         this.setOptions(options);
-        this.setData();
         this.setPlayerNode();
         this.setVideoId();
         this.setCoverImage();
         this.setMarkup();
         this.createPlayerHtml();
+        this.initDataBindings();
+        this.setData();
     }
 
     setData() {
@@ -18,6 +19,32 @@ export default class {
         this.player = {};
         this.playerCreated = false;
         this.videoStarted = false;
+    }
+
+    initDataBindings() {
+        let wrapper = this.options.cssClasses.wrapper;
+        this.bindClassToProperty(this, this.playerNode, `${wrapper}--is-loading`, 'isLoading');
+        this.bindClassToProperty(this, this.playerNode, `${wrapper}--cover-is-hidden`, 'coverIsHidden');
+        this.bindClassToProperty(window, this.playerNode, `${wrapper}--is-ready`, 'iframeApiCreated');
+        this.bindAttrToProperty(this.options, this.playerNode.querySelector('.' + this.options.cssClasses.cover), 'style', `background-image: url(${this.options.coverImage})`, 'coverImage');
+    }
+
+    bindClassToProperty(obj, node, className, prop) {
+        Object.defineProperty(obj, prop, {
+            set (value) {
+                value ? node.classList.add(className) : node.classList.remove(className);
+            }
+        });
+    }
+
+    bindAttrToProperty(obj, node, attr, value, prop) {
+        Object.defineProperty(obj, prop, {
+            set (value) {
+                if (value) {
+                    node.setAttribute(attr, value);
+                };
+            }
+        });
     }
 
     setClassList() {
@@ -42,6 +69,7 @@ export default class {
 
     createPlayerHtml() {
         this.playerNode.innerHTML = this.markup;
+        this.playerNode = this.playerNode.firstChild;
     }
 
     setVideoId() {
@@ -68,7 +96,7 @@ export default class {
         this.markup = `<div class="${this.options.cssClasses.wrapper}">
             <div class="${this.options.cssClasses.wrapperInner}">
                 <div id="${this.options.videoId}" class="${this.options.cssClasses.video}"></div>
-                <div class="${this.options.cssClasses.cover}" style="background-image:url(${this.options.coverImage})">
+                <div class="${this.options.cssClasses.cover}">
                     <div class="${this.options.cssClasses.icons}">
                         <div class="${this.options.cssClasses.playButtonWrapper}">
                             ${this.options.playIcon}

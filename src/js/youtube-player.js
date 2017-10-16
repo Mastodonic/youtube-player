@@ -174,8 +174,8 @@ export default class {
             videoId: this.options.videoId,
             playerVars: this.options.playerVars,
             events: {
-                onReady: this.onPlayerReady,
-                onStateChange: this.onPlayerStateChange
+                onReady: this.onPlayerReady.bind(this),
+                onStateChange: this.onPlayerStateChange.bind(this)
             }
         });
 
@@ -194,6 +194,7 @@ export default class {
      * @param  {object} e event object from iframe api
      */
     onPlayerReady(e) {
+        console.log(this.player);
         // This will set the player state to -1 (unstarted);
         if (!Helpers.isMobile.any()) {
             this.player.stopVideo();

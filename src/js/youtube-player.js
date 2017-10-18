@@ -39,7 +39,7 @@ export default class {
         let wrapper = this.options.cssClasses.wrapper;
         this.bindClassToProperty(this, this.playerNode, `${wrapper}--is-loading`, 'isLoading');
         this.bindClassToProperty(this, this.playerNode, `${wrapper}--cover-is-hidden`, 'coverIsHidden');
-        this.bindClassToProperty(window, this.playerNode, `${wrapper}--is-ready`, 'iframeApiCreated');
+        this.bindClassToProperty(this, this.playerNode, `${wrapper}--is-ready`, 'apiIsLoaded');
         this.bindAttrToProperty(this.options, this.playerNode.querySelector('.' + this.options.cssClasses.cover), 'style', 'coverImage');
     }
 
@@ -69,7 +69,11 @@ export default class {
     }
 
     setPlayerNode() {
-        this.playerNode = document.querySelector(this.options.selector);
+        if (this.options.domNode && this.options.selector) {
+            throw new Error('You can not use both domNode ans selector as target');
+        } else {
+            this.playerNode = this.options.domNode ? this.options.domNode : document.querySelector(this.options.selector);
+        }
     }
 
     createPlayerHtml() {
@@ -78,8 +82,8 @@ export default class {
     }
 
     setVideoId() {
-        if (this.playerNode.hasAttribute('data-video-id')) {
-            this.options.videoId = this.playerNode.getAttribute('data-video-id');
+        if (this.playerNode.hasAttribute('data-youtube-id')) {
+            this.options.videoId = this.playerNode.getAttribute('data-youtube-id');
         }
     }
 
@@ -135,10 +139,12 @@ export default class {
             window.iframeApiCreated = true;
         }
 
+        this.apiIsLoaded = true;
+
         if (window.YT) {
             this.onYouTubeIframeAPIReady();
         } else {
-            window.onYouTubeIframeAPIReady = this.onYouTubeIframeAPIReady;
+            window.onYouTubeIframeAPIReady = this.onYouTubeIframeAPIReady.bind(this);
         }
     }
 
@@ -194,7 +200,6 @@ export default class {
      * @param  {object} e event object from iframe api
      */
     onPlayerReady(e) {
-        console.log(this.player);
         // This will set the player state to -1 (unstarted);
         if (!Helpers.isMobile.any()) {
             this.player.stopVideo();

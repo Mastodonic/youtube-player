@@ -1,11 +1,12 @@
-import YoutubePlayer from './youtube-player';
+import YoutubePlayer from './wrapper';
 
-new YoutubePlayer({
-    selector: '.js-video',
-    coverImageSize: 'maximum'
-});
+// new yt.Multiple({
+//     selector: '.js-video'
+// });
 
-new YoutubePlayer({
-    selector: '.js-video-2',
-    coverImageSize: 'sd'
+// let domNodeArray = document.querySelectorAll('.js-video');
+let yp = new YoutubePlayer();
+
+window.single = yp.multiple({
+    selector: '.js-video'
 });

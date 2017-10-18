@@ -215,11 +215,11 @@ export default class {
         this.player = player;
 
         // Create an array of all YT players
-        if (!window.YTPPlayers) {
-            window.YTPPlayers = [];
+        if (!window.YTPlayers) {
+            window.YTPlayers = [];
         }
 
-        window.YTPPlayers.push(this.player);
+        window.YTPlayers.push(this.player);
     }
 
     /**
@@ -281,7 +281,7 @@ export default class {
      * Pause other videos on the same page
      */
     pauseOtherVideos() {
-        let players = window.YTPPlayers;
+        let players = window.YTPlayers;
 
         players.forEach((player) => {
             if (player !== this.player) {
@@ -293,10 +293,10 @@ export default class {
     destroy() {
         // Delete Player from players array
 
-        if (window.YTPPlayers) {
-            let index = window.YTPPlayers.indexOf(this.player);
+        if (window.YTPlayers) {
+            let index = window.YTPlayers.indexOf(this.player);
             if (index > -1) {
-                window.YTPPlayers.splice(index, 1);
+                window.YTPlayers.splice(index, 1);
             }
         }
     }

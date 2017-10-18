@@ -88,7 +88,17 @@ export default class {
     }
 
     setCoverImage() {
-        if (!this.options.coverImage) {
+        if (this.playerNode.hasAttribute('data-cover-image')) {
+            this.options.coverImageSrc = this.playerNode.getAttribute('data-cover-image');
+        }
+
+        if (this.options.coverImageSrc) {
+            let img = new Image();
+            img.src = this.options.coverImageSrc;
+            img.onload = () => {
+                this.options.coverImage = `background-image: url(${this.options.coverImageSrc}`;
+            };
+        } else {
             let img = new Image();
             let imageSize;
             let src;
@@ -109,6 +119,7 @@ export default class {
             }
 
             src = `https://img.youtube.com/vi/${this.options.videoId}/${imageSize}.jpg`;
+
             img.src = src;
             img.onload = () => {
                 let srcName = img.width > 150 ? imageSize : '0';

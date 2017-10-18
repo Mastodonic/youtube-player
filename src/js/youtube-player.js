@@ -89,14 +89,30 @@ export default class {
 
     setCoverImage() {
         if (!this.options.coverImage) {
-            let src = `https://img.youtube.com/vi/${this.options.videoId}/maxresdefault.jpg`;
             let img = new Image();
+            let imageSize;
+            let src;
 
+            switch (this.options.coverImageSize) {
+            case 'medium':
+                imageSize = 'mqdefault';
+                break;
+            case 'high':
+                imageSize = '0';
+                break;
+            case 'sd':
+                imageSize = 'sddefault';
+                break;
+            case 'maximum':
+                imageSize = 'maxresdefault';
+                break;
+            }
+
+            src = `https://img.youtube.com/vi/${this.options.videoId}/${imageSize}.jpg`;
             img.src = src;
-
             img.onload = () => {
-                let size = img.width > 300 ? 'maxresdefault' : '0';
-                this.options.coverImage = `background-image: url(https://img.youtube.com/vi/${this.options.videoId}/${size}.jpg)`;
+                let srcName = img.width > 150 ? imageSize : '0';
+                this.options.coverImage = `background-image: url(https://img.youtube.com/vi/${this.options.videoId}/${srcName}.jpg)`;
             };
         }
     }

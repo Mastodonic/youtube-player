@@ -3,6 +3,7 @@ export default {
     domNode: null,
     videoId: '',
     coverImage: '',
+    coverImageSize: 'high',
     cssClasses: {
         wrapper: 'c-youtube-player',
         wrapperInner: 'c-youtube-player__inner',

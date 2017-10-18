@@ -1,9 +1,11 @@
 import YoutubePlayer from './youtube-player';
 
 new YoutubePlayer({
-    selector: '.js-video'
+    selector: '.js-video',
+    coverImageSize: 'maximum'
 });
 
 new YoutubePlayer({
-    selector: '.js-video-2'
+    selector: '.js-video-2',
+    coverImageSize: 'sd'
 });

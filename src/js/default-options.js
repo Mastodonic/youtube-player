@@ -1,6 +1,5 @@
 export default {
-    selector: '',
-    domNode: null,
+    playerNode: null,
     videoId: '',
     coverImageSrc: '',
     coverImageSize: 'high',

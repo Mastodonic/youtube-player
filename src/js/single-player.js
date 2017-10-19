@@ -23,11 +23,21 @@ export default class {
 
         // Initialise API
         this.loadYoutubeApi();
-        this.coverIsHidden = false;
+
+        if (!this.options.forceCoverOnTouchDevices && Helpers.isMobile.any()) {
+            this.coverIsHidden = true;
+        } else {
+            this.coverIsHidden = false;
+        }
+
+        if (!window.MAYTPlayers) {
+            window.MAYTPlayers = [];
+        }
+
+        window.MAYTPlayers.push(this);
     }
 
     setData() {
-        this.coverIsHidden = true;
         this.isLoading = false;
         this.player = {};
         this.playerCreated = false;
@@ -125,7 +135,7 @@ export default class {
 
     addListeners() {
         // Add click listener to video cover
-        this.playerNode.querySelector('.' + this.options.cssClasses.cover).addEventListener('click', () => this.handleCoverClick());
+        this.playerNode.querySelector('.' + this.options.cssClasses.cover).addEventListener('click', () => this.initialisePlayer());
     }
 
     setMarkup() {
@@ -174,17 +184,26 @@ export default class {
      * Callback function once the iframe api is loaded
      */
     onYouTubeIframeAPIReady() {
-        if (Helpers.isMobile.any()) {
-            this.handleCoverClick();
-        }
+        window.MAYTPlayers.forEach((player) => {
+            if (!this.options.forceCoverOnTouchDevices && Helpers.isMobile.any()) {
+                player.initialisePlayer();
+            }
+        });
     }
 
     /**
      * handle click on cover video
      */
-    handleCoverClick() {
-        this.isLoading = true;
+    initialisePlayer() {
+        // Turn off custom loader on mobile and touch devices
+        // since autolplay is not allowed on these devices
+        if (Helpers.isMobile.any()) {
+            this.coverIsHidden = true;
+        } else {
+            this.isLoading = true;
+        }
 
+        // Create the player
         if (this.playerCreated) {
             this.player.playVideo();
         } else {
@@ -223,11 +242,8 @@ export default class {
      */
     onPlayerReady(e) {
         // This will set the player state to -1 (unstarted);
-        if (!Helpers.isMobile.any()) {
-            this.player.stopVideo();
-            this.player.playVideo();
-        }
-
+        this.player.stopVideo();
+        this.player.playVideo();
         this.playerCreated = true;
     }
 

@@ -6,7 +6,7 @@ export default class {
     constructor(options) {
         // Set Default Options
         this.setOptions(options);
-        this.setPlayerNode();
+        this.setDomNode();
         this.setVideoId();
         this.setCoverImage();
 
@@ -30,26 +30,27 @@ export default class {
             this.coverIsHidden = false;
         }
 
-        if (!window.MAYTPlayers) {
-            window.MAYTPlayers = [];
+        // Create an array of all youtube player instances
+        // on the window object
+        if (!window.YTPlayers) {
+            window.YTPlayers = [];
         }
 
-        window.MAYTPlayers.push(this);
+        window.YTPlayers.push(this);
     }
 
     setData() {
         this.isLoading = false;
-        this.player = {};
         this.playerCreated = false;
         this.videoStarted = false;
     }
 
     initDataBindings() {
         let wrapper = this.options.cssClasses.wrapper;
-        this.bindClassToProperty(this, this.playerNode, `${wrapper}--is-loading`, 'isLoading');
-        this.bindClassToProperty(this, this.playerNode, `${wrapper}--cover-is-hidden`, 'coverIsHidden');
-        this.bindClassToProperty(this, this.playerNode, `${wrapper}--is-ready`, 'apiIsLoaded');
-        this.bindAttrToProperty(this.options, this.playerNode.querySelector('.' + this.options.cssClasses.cover), 'style', 'coverImage');
+        this.bindClassToProperty(this, this.domNode, `${wrapper}--is-loading`, 'isLoading');
+        this.bindClassToProperty(this, this.domNode, `${wrapper}--cover-is-hidden`, 'coverIsHidden');
+        this.bindClassToProperty(this, this.domNode, `${wrapper}--is-ready`, 'apiIsLoaded');
+        this.bindAttrToProperty(this.options, this.domNode.querySelector('.' + this.options.cssClasses.cover), 'style', 'coverImage');
     }
 
     bindClassToProperty(obj, node, className, prop) {
@@ -77,24 +78,24 @@ export default class {
         };
     }
 
-    setPlayerNode() {
-        this.playerNode = this.options.playerNode;
+    setDomNode() {
+        this.domNode = this.options.element;
     }
 
     createPlayerHtml() {
-        this.playerNode.innerHTML = this.markup;
-        this.playerNode = this.playerNode.firstChild;
+        this.domNode.innerHTML = this.markup;
+        this.domNode = this.domNode.firstChild;
     }
 
     setVideoId() {
-        if (this.playerNode.hasAttribute('data-youtube-id')) {
-            this.options.videoId = this.playerNode.getAttribute('data-youtube-id');
+        if (this.domNode.hasAttribute('data-youtube-id')) {
+            this.options.videoId = this.domNode.getAttribute('data-youtube-id');
         }
     }
 
     setCoverImage() {
-        if (this.playerNode.hasAttribute('data-cover-image')) {
-            this.options.coverImageSrc = this.playerNode.getAttribute('data-cover-image');
+        if (this.domNode.hasAttribute('data-cover-image')) {
+            this.options.coverImageSrc = this.domNode.getAttribute('data-cover-image');
         }
 
         if (this.options.coverImageSrc) {
@@ -135,7 +136,7 @@ export default class {
 
     addListeners() {
         // Add click listener to video cover
-        this.playerNode.querySelector('.' + this.options.cssClasses.cover).addEventListener('click', () => this.initialisePlayer());
+        this.domNode.querySelector('.' + this.options.cssClasses.cover).addEventListener('click', () => this.initialisePlayer());
     }
 
     setMarkup() {
@@ -171,8 +172,6 @@ export default class {
             window.iframeApiCreated = true;
         }
 
-        this.apiIsLoaded = true;
-
         if (window.YT) {
             this.onYouTubeIframeAPIReady();
         } else {
@@ -184,7 +183,8 @@ export default class {
      * Callback function once the iframe api is loaded
      */
     onYouTubeIframeAPIReady() {
-        window.MAYTPlayers.forEach((player) => {
+        window.YTPlayers.forEach((player) => {
+            player.apiIsLoaded = true;
             if (!this.options.forceCoverOnTouchDevices && Helpers.isMobile.any()) {
                 player.initialisePlayer();
             }
@@ -217,7 +217,7 @@ export default class {
      * Create youtube player and attach it to the class instance
      */
     createPlayer() {
-        let player = new YT.Player(this.options.videoId, {
+        this.player = new YT.Player(this.options.videoId, {
             videoId: this.options.videoId,
             playerVars: this.options.playerVars,
             events: {
@@ -225,15 +225,6 @@ export default class {
                 onStateChange: this.onPlayerStateChange.bind(this)
             }
         });
-
-        this.player = player;
-
-        // Create an array of all YT players
-        if (!window.YTPlayers) {
-            window.YTPlayers = [];
-        }
-
-        window.YTPlayers.push(this.player);
     }
 
     /**
@@ -292,11 +283,11 @@ export default class {
      * Pause other videos on the same page
      */
     pauseOtherVideos() {
-        let players = window.YTPlayers;
+        let instances = window.YTPlayers;
 
-        players.forEach((player) => {
-            if (player !== this.player) {
-                player.pauseVideo();
+        instances.forEach((instance) => {
+            if (instance.player && instance.player !== this.player) {
+                instance.player.pauseVideo();
             }
         });
     }
@@ -304,11 +295,11 @@ export default class {
     destroy() {
         // Delete Player from players array
 
-        if (window.YTPlayers) {
-            let index = window.YTPlayers.indexOf(this.player);
-            if (index > -1) {
-                window.YTPlayers.splice(index, 1);
-            }
-        }
+        // if (window.YTPlayers) {
+        //     let index = window.YTPlayers.indexOf(this.player);
+        //     if (index > -1) {
+        //         window.YTPlayers.splice(index, 1);
+        //     }
+        // }
     }
 };

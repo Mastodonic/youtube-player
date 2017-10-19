@@ -44,6 +44,7 @@
         position: absolute;
         top: 0;
         width: 100%;
+        -webkit-tap-highlight-color: transparent;
 
 
         &::before {
@@ -60,9 +61,9 @@
     }
 
     &__icons {
-        height: 80px;
+        height: 20%;
         position: relative;
-        width: 80px;
+        width: 12%;
     }
 
     &__play-button-wrapper {

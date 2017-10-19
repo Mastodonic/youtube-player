@@ -1,5 +1,5 @@
 export default {
-    playerNode: null,
+    element: null,
     videoId: '',
     coverImageSrc: '',
     coverImageSize: 'high',

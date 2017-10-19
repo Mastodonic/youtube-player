@@ -3,6 +3,7 @@ export default {
     videoId: '',
     coverImageSrc: '',
     coverImageSize: 'high',
+    forceCoverOnTouchDevices: false,
     cssClasses: {
         wrapper: 'c-youtube-player',
         wrapperInner: 'c-youtube-player__inner',

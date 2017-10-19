@@ -18,19 +18,17 @@ const host = '192.168.10.10';
 
 // Assets Path
 const jsSrcPath = `${src}/js/app.js`;
-const scssSrcPath = `${src}/scss/style.scss`;
+const scssSrcPath = `${src}/scss/`;
 const devPath = `${root}/public/assets`;
-const productionPath = `./lib`;
+const productionPath = './lib';
 
 mix.setPublicPath(root);
 
 let destPath = mix.config.production ? productionPath : devPath;
 
 // Styles
-mix.sass(scssSrcPath, destPath)
-    .options({
-        processCssUrls: false
-    });
+mix.sass(`${scssSrcPath}/base.scss`, destPath);
+mix.sass(`${scssSrcPath}/default-skin.scss`, destPath);
 
 // Js
 mix.js(jsSrcPath, destPath);

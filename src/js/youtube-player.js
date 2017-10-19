@@ -293,13 +293,14 @@ export default class {
     }
 
     destroy() {
-        // Delete Player from players array
+        // Delete this instance from players array
+        if (window.YTPlayers) {
+            let index = window.YTPlayers.indexOf(this);
+            if (index > -1) {
+                window.YTPlayers.splice(index, 1);
+            }
+        }
 
-        // if (window.YTPlayers) {
-        //     let index = window.YTPlayers.indexOf(this.player);
-        //     if (index > -1) {
-        //         window.YTPlayers.splice(index, 1);
-        //     }
-        // }
+        this.domNode.remove();
     }
 };

@@ -292,6 +292,41 @@ export default class {
         });
     }
 
+    /**
+     * Update video player options
+     * @param  {object} options videoId coverImage coverImageSize
+     */
+    updateOptions(options) {
+        this.options.videoId = options.videoId;
+        this.options.coverImageSrc = options.coverImageSrc ? options.coverImageSrc : '';
+        this.options.coverImageSize = options.coverImageSize;
+        this.domNode.querySelector('.' + this.options.cssClasses.video).setAttribute('id', this.options.videoId);
+    }
+
+    /**
+     * Load new video by passing an options object
+     * @param  {object} options videoId coverImage coverImageSize
+     */
+    loadNewVideo(options) {
+        this.updateOptions(options);
+        this.setCoverImage();
+
+        if (this.playerCreated) {
+            this.player.cueVideoById(this.options.videoId);
+            this.isLoading = false;
+            this.videoStarted = false;
+
+            if (!Helpers.isMobile.any()) {
+                this.coverIsHidden = false;
+            }
+        }
+    }
+
+    /**
+     * Remove this instanvce from YTPlayers array and
+     * aslo remove the markup from dom
+     * @return {[type]} [description]
+     */
     destroy() {
         // Delete this instance from players array
         if (window.YTPlayers) {

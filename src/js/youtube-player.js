@@ -1,5 +1,6 @@
 /* global YT */
 import defaults from './default-options';
+import markup from './default-markup';
 import Helpers from './helpers';
 
 export default class {
@@ -207,21 +208,7 @@ export default class {
      * Set intitial markup of the video player
      */
     setMarkup() {
-        this.markup = `<div class="${this.options.cssClasses.wrapper}">
-            <div class="${this.options.cssClasses.wrapperInner}">
-                <div id="${this.options.videoId}" class="${this.options.cssClasses.video}"></div>
-                <div class="${this.options.cssClasses.cover}">
-                    <div class="${this.options.cssClasses.icons}">
-                        <div class="${this.options.cssClasses.playButtonWrapper}">
-                            ${this.options.playIcon}
-                        </div>
-                        <div class="${this.options.cssClasses.spinnerWrapper}">
-                            ${this.options.spinnerIcon}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>`;
+        this.markup = markup(this.options);
     }
 
     /**

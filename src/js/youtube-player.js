@@ -9,35 +9,40 @@ export default class {
         this.setOptions(options);
         this.setDomNode();
         this.setVideoId();
-        this.setCoverImage();
 
-        // Create Player
-        this.setMarkup();
-        this.createPlayerHtml();
+        if (this.options.videoId) {
+            this.setCoverImage();
 
-        // Set Data
-        this.initDataBindings();
-        this.setStates();
+            // Create Player
+            this.setMarkup();
+            this.createPlayerHtml();
 
-        // Add listeners
-        this.addListeners();
+            // Set Data
+            this.initDataBindings();
+            this.setStates();
 
-        // Initialise API
-        this.loadYoutubeApi();
+            // Add listeners
+            this.addListeners();
 
-        if (!this.options.forceCoverOnTouchDevices && Helpers.isMobile.any()) {
-            this.coverIsHidden = true;
+            // Initialise API
+            this.loadYoutubeApi();
+
+            if (!this.options.forceCoverOnTouchDevices && Helpers.isMobile.any()) {
+                this.coverIsHidden = true;
+            } else {
+                this.coverIsHidden = false;
+            }
+
+            // Create an array of all youtube player instances
+            // on the window object
+            if (!window.YTPlayers) {
+                window.YTPlayers = [];
+            }
+
+            window.YTPlayers.push(this);
         } else {
-            this.coverIsHidden = false;
+            throw new Error('can not find youtube video id');
         }
-
-        // Create an array of all youtube player instances
-        // on the window object
-        if (!window.YTPlayers) {
-            window.YTPlayers = [];
-        }
-
-        window.YTPlayers.push(this);
     }
 
     /**

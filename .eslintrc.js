@@ -18,6 +18,7 @@ module.exports = {
     // add your custom rules here
     'rules': {
         // allow paren-less arrow functions,
+        'accessor-pairs': 0,
         'no-new': 0,
         'arrow-parens': 0,
         "indent": ["error", 4],

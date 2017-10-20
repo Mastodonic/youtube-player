@@ -87,9 +87,28 @@ export default class {
         this.domNode = this.domNode.firstChild;
     }
 
+    extractVideoIdfromUrl() {
+        let regex = /^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^?&"'>]+)/;
+        let matches = this.options.videoUrl.match(regex);
+
+        if (matches) {
+            this.options.videoId = matches[1];
+        } else {
+            throw new Error('The url is not in the right format');
+        }
+    }
+
     setVideoId() {
         if (this.domNode.hasAttribute('data-youtube-id')) {
             this.options.videoId = this.domNode.getAttribute('data-youtube-id');
+        }
+
+        if (this.domNode.hasAttribute('data-youtube-url')) {
+            this.options.videoUrl = this.domNode.getAttribute('data-youtube-url');
+        }
+
+        if (this.options.videoUrl && !this.options.videoId) {
+            this.extractVideoIdfromUrl();
         }
     }
 
@@ -298,6 +317,7 @@ export default class {
      */
     updateOptions(options) {
         this.options.videoId = options.videoId;
+        this.options.videoUrl = options.videoUrl;
         this.options.coverImageSrc = options.coverImageSrc ? options.coverImageSrc : '';
         this.options.coverImageSize = options.coverImageSize;
         this.domNode.querySelector('.' + this.options.cssClasses.video).setAttribute('id', this.options.videoId);
@@ -309,6 +329,7 @@ export default class {
      */
     loadNewVideo(options) {
         this.updateOptions(options);
+        this.setVideoId();
         this.setCoverImage();
 
         if (this.playerCreated) {

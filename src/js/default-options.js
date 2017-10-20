@@ -1,6 +1,7 @@
 export default {
     element: null,
     videoId: '',
+    videoUrl: '',
     coverImageSrc: '',
     coverImageSize: 'high',
     forceCoverOnTouchDevices: false,

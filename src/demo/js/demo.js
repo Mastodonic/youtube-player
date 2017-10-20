@@ -1,5 +1,7 @@
-import YoutubePlayer from './lib/youtube-player';
-
+/* eslint-disable */
+import YoutubePlayer from '../../../lib/youtube-player';
+console.log(YoutubePlayer);
+// console.log(YoutubePlayerSrc, 'src');
 // document.querySelectorAll('[data-youtube-id]').forEach((element) => {
 //     new YoutubePlayer({
 //         element

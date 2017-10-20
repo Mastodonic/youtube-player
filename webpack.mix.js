@@ -11,28 +11,16 @@
 // Dependencies
 const mix = require('laravel-mix');
 
-// .env Variables
-const src = 'src';
-const root = './';
-const host = '192.168.10.10';
-
-// Assets Path
-const jsSrcPath = `${src}/js/`;
-const scssSrcPath = `${src}/scss/`;
-const devPath = `${root}/public/assets`;
-const productionPath = './lib';
-
-mix.setPublicPath(root);
-
-let destPath = mix.config.production ? productionPath : devPath;
+mix.setPublicPath('./');
 
 // Styles
-mix.sass(`${scssSrcPath}/base.scss`, destPath);
-mix.sass(`${scssSrcPath}/default-skin.scss`, destPath);
+mix.sass('src/lib/scss/base.scss', './lib');
+mix.sass('src/lib/scss/default-skin.scss', './lib');
+mix.js('src/lib/js/youtube-player.js', './lib');
 
-// Js
-mix.js(`${jsSrcPath}/lib/youtube-player.js`, destPath);
-mix.js(`${jsSrcPath}/demo.js`, destPath);
+// Demo Files
+mix.sass('src/demo/scss/demo.scss', './docs/assets');
+mix.js('src/demo/js/demo.js', './docs/assets');
 
 // SVG Sprite
 mix.webpackConfig({
@@ -46,7 +34,7 @@ mix.webpackConfig({
             {
                 test: /(\.vue|\.js)$/,
                 loader: 'eslint-loader',
-                exclude: /node_modules/
+                exclude: [/lib/, /node_modules/]
             }
         ]
     }
@@ -64,16 +52,16 @@ if (mix.config.production) {
     mix.sourceMaps();
 }
 
-
 // Browser Sync
 
 if (!mix.config.hmr) {
     mix.browserSync({
-        proxy: host,
+        server: './docs',
+        proxy: null,
         browser: 'google chrome',
         files: [
-            `public/assets/*.css`,
-            `public/assets/*.js`
+            'docs/assets/*.css',
+            'docs/assets/*.js'
         ]
     });
 }

@@ -1,6 +1,7 @@
 {
-    "/public/assets/youtube-player.js": "/public/assets/youtube-player.js",
-    "/public/assets/base.css": "/public/assets/base.css",
-    "/public/assets/default-skin.css": "/public/assets/default-skin.css",
-    "/public/assets/demo.js": "/public/assets/demo.js"
+    "/lib/youtube-player.js": "/lib/youtube-player.js",
+    "/lib/base.css": "/lib/base.css",
+    "/lib/default-skin.css": "/lib/default-skin.css",
+    "/docs/assets/demo.css": "/docs/assets/demo.css",
+    "/docs/assets/demo.js": "/docs/assets/demo.js"
 }

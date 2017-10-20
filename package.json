@@ -1,9 +1,9 @@
 {
-    "name": "",
+    "name": "youtube-player",
     "version": "1.0.0",
     "description": "",
-    "dependencies": {
-    },
+    "main": "lib/youtube-player.js",
+    "dependencies": {},
     "devDependencies": {
         "babel-eslint": "^8.0.1",
         "babel-plugin-transform-object-rest-spread": "^6.23.0",
@@ -27,6 +27,10 @@
         "production": "NODE_ENV=production node_modules/webpack/bin/webpack.js --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js",
         "watch": "NODE_ENV=development node_modules/webpack/bin/webpack.js --watch --progress --hide-modules --config=node_modules/laravel-mix/setup/webpack.config.js"
     },
-    "author": "Breakthrough Media",
-    "license": "ISC"
+    "repository": {
+        "type": "git",
+        "url": "git@github.com:Mastodonic/youtube-player.git"
+    },
+    "author": "Milad Alizadeh",
+    "license": "MIT"
 }

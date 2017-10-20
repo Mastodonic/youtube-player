@@ -1,4 +1,4 @@
-import YoutubePlayer from './youtube-player';
+import YoutubePlayer from './lib/youtube-player';
 
 // document.querySelectorAll('[data-youtube-id]').forEach((element) => {
 //     new YoutubePlayer({

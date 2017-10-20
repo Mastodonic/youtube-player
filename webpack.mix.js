@@ -17,7 +17,7 @@ const root = './';
 const host = '192.168.10.10';
 
 // Assets Path
-const jsSrcPath = `${src}/js/app.js`;
+const jsSrcPath = `${src}/js/`;
 const scssSrcPath = `${src}/scss/`;
 const devPath = `${root}/public/assets`;
 const productionPath = './lib';
@@ -31,7 +31,8 @@ mix.sass(`${scssSrcPath}/base.scss`, destPath);
 mix.sass(`${scssSrcPath}/default-skin.scss`, destPath);
 
 // Js
-mix.js(jsSrcPath, destPath);
+mix.js(`${jsSrcPath}/lib/youtube-player.js`, destPath);
+mix.js(`${jsSrcPath}/demo.js`, destPath);
 
 // SVG Sprite
 mix.webpackConfig({

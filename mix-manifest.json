@@ -1,5 +1,6 @@
 {
-    "/public/assets/app.js": "/public/assets/app.js",
+    "/public/assets/youtube-player.js": "/public/assets/youtube-player.js",
     "/public/assets/base.css": "/public/assets/base.css",
-    "/public/assets/default-skin.css": "/public/assets/default-skin.css"
+    "/public/assets/default-skin.css": "/public/assets/default-skin.css",
+    "/public/assets/demo.js": "/public/assets/demo.js"
 }

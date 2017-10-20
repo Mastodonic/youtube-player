@@ -16,7 +16,7 @@ export default class {
 
         // Set Data
         this.initDataBindings();
-        this.setData();
+        this.setStates();
 
         // Add listeners
         this.addListeners();
@@ -39,12 +39,18 @@ export default class {
         window.YTPlayers.push(this);
     }
 
-    setData() {
+    /**
+     * Set initial states
+     */
+    setStates() {
         this.isLoading = false;
         this.playerCreated = false;
         this.videoStarted = false;
     }
 
+    /**
+     * Set all the data bindings
+     */
     initDataBindings() {
         let wrapper = this.options.cssClasses.wrapper;
         this.bindClassToProperty(this, this.domNode, `${wrapper}--is-loading`, 'isLoading');
@@ -53,6 +59,13 @@ export default class {
         this.bindAttrToProperty(this.options, this.domNode.querySelector('.' + this.options.cssClasses.cover), 'style', 'coverImage');
     }
 
+    /**
+     * Bind an element's class name to an object's property
+     * @param  {obj} obj
+     * @param  {obj} node
+     * @param  {string} className
+     * @param  {string} prop
+     */
     bindClassToProperty(obj, node, className, prop) {
         Object.defineProperty(obj, prop, {
             set (value) {
@@ -61,6 +74,13 @@ export default class {
         });
     }
 
+    /**
+     * Bind an element attribute to an objec's property
+     * @param  {obj} obj
+     * @param  {obj} node
+     * @param  {string} attr
+     * @param  {string} prop
+     */
     bindAttrToProperty(obj, node, attr, prop) {
         Object.defineProperty(obj, prop, {
             set (value) {
@@ -71,6 +91,10 @@ export default class {
         });
     }
 
+    /**
+     * Merge passed options with default
+     * @param {obj} options
+     */
     setOptions(options) {
         this.options = {
             ...defaults,
@@ -78,15 +102,26 @@ export default class {
         };
     }
 
+    /**
+     * set main dom node
+     */
     setDomNode() {
         this.domNode = this.options.element;
     }
 
+    /**
+     * attach initial markup to the main domNode
+     */
     createPlayerHtml() {
         this.domNode.innerHTML = this.markup;
+
+        // Change the initial dom node to first child
         this.domNode = this.domNode.firstChild;
     }
 
+    /**
+     * Extract video id from a passed video url
+     */
     extractVideoIdfromUrl() {
         let regex = /^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^?&"'>]+)/;
         let matches = this.options.videoUrl.match(regex);
@@ -98,6 +133,9 @@ export default class {
         }
     }
 
+    /**
+     * Set video id from data attributes or video url
+     */
     setVideoId() {
         if (this.domNode.hasAttribute('data-youtube-id')) {
             this.options.videoId = this.domNode.getAttribute('data-youtube-id');
@@ -112,6 +150,10 @@ export default class {
         }
     }
 
+    /**
+     * Set the cover image if it's passed as an option
+     * otherwise fetch the image from youtrube based on id and size
+     */
     setCoverImage() {
         if (this.domNode.hasAttribute('data-cover-image')) {
             this.options.coverImageSrc = this.domNode.getAttribute('data-cover-image');
@@ -153,11 +195,17 @@ export default class {
         }
     }
 
+    /**
+     * Add click listener to video cover
+     */
     addListeners() {
         // Add click listener to video cover
         this.domNode.querySelector('.' + this.options.cssClasses.cover).addEventListener('click', () => this.initialisePlayer());
     }
 
+    /**
+     * Set intitial markup of the video player
+     */
     setMarkup() {
         this.markup = `<div class="${this.options.cssClasses.wrapper}">
             <div class="${this.options.cssClasses.wrapperInner}">

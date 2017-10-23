@@ -37,6 +37,10 @@ mix.webpackConfig({
                 exclude: [/lib/, /node_modules/]
             }
         ]
+    },
+    output: {
+        library: 'youtube-player',
+        libraryTarget: 'umd'
     }
 });
 
@@ -56,7 +60,7 @@ if (mix.config.production) {
 
 if (!mix.config.hmr) {
     mix.browserSync({
-        server: './docs',
+        server: './',
         proxy: null,
         browser: 'google chrome',
         files: [

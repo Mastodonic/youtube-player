@@ -1,7 +1,11 @@
 /* global YT */
-import defaults from './default-options';
-import markup from './default-markup';
+import defaults from './defaults';
+import markup from './markup';
 import Helpers from './helpers';
+
+// Styles
+import '../scss/base.scss';
+import '../scss/default-skin.scss';
 
 export default class {
     constructor(options) {

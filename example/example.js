@@ -1,16 +1,12 @@
 /* eslint-disable */
-import sample from '../../../lib/youtube-player';
-// console.log(sample);
+import YoutubePlayer from '../dist/youtube-player.min';
+import './example.scss';
 
-console.log(require('../../../lib/youtube-player'));
-
-//
-// console.log(YoutubePlayerSrc, 'src');
-// document.querySelectorAll('[data-youtube-id]').forEach((element) => {
-//     new YoutubePlayer({
-//         element
-//     });
-// });
+document.querySelectorAll('[data-youtube-id]').forEach((element) => {
+    new YoutubePlayer({
+        element
+    });
+});
 //
 // let yp = new YoutubePlayer({
 //     element: document.querySelectorAll('.js-video')[0],

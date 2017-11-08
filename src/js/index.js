@@ -78,6 +78,9 @@ export default class {
      */
     bindClassToProperty(obj, node, className, prop) {
         Object.defineProperty(obj, prop, {
+            get() {
+
+            },
             set (value) {
                 value ? node.classList.add(className) : node.classList.remove(className);
             }
@@ -93,6 +96,9 @@ export default class {
      */
     bindAttrToProperty(obj, node, attr, prop) {
         Object.defineProperty(obj, prop, {
+            get() {
+
+            },
             set (value) {
                 if (value) {
                     node.setAttribute(attr, value);

@@ -4,8 +4,8 @@ import markup from './markup';
 import Helpers from './helpers';
 
 // Styles
-import '../scss/base.scss';
-import '../scss/default-skin.scss';
+// import '../scss/base.scss';
+// import '../scss/default-skin.scss';
 
 export default class {
     constructor(options) {
@@ -137,15 +137,16 @@ export default class {
 
     /**
      * Extract video id from a passed video url
+     * @param  {string} url [description]
+     * @return {string} videoId
      */
-    extractVideoIdfromUrl() {
-        let regex = /^(?:http(?:s)?:\/\/)?(?:www\.)?(?:m\.)?(?:youtu\.be\/|youtube\.com\/(?:(?:watch)?\?(?:.*&)?v(?:i)?=|(?:embed|v|vi|user)\/))([^?&"'>]+)/;
-        let matches = this.options.videoUrl.match(regex);
-
+    extractVideoIdfromUrl(url) {
+        let regex = /^((?:https?:)?\/\/)?((?:www|m)\.)?((?:youtube\.com|youtu.be))(\/(?:[\w-]+\?v=|embed\/|v\/)?)([\w-]+)(\S+)?$/;
+        let matches = url.match(regex);
         if (matches) {
-            this.options.videoId = matches[1];
+            return matches[5];
         } else {
-            throw new Error('The url is not in the right format');
+            throw new Error(`The url "${url}" is not in the right format`);
         }
     }
 
@@ -162,7 +163,7 @@ export default class {
         }
 
         if (this.options.videoUrl && !this.options.videoId) {
-            this.extractVideoIdfromUrl();
+            this.options.videoId = this.extractVideoIdfromUrl(this.options.videoUrl);
         }
     }
 
@@ -206,7 +207,8 @@ export default class {
             img.src = src;
             img.onload = () => {
                 let srcName = img.width > 150 ? imageSize : '0';
-                this.options.coverImage = `background-image: url(https://img.youtube.com/vi/${this.options.videoId}/${srcName}.jpg)`;
+                this.options.coverImageSrc = `https://img.youtube.com/vi/${this.options.videoId}/${srcName}.jpg`;
+                this.options.coverImage = `background-image: url(${this.options.coverImageSrc})`;
             };
         }
     }
@@ -230,14 +232,12 @@ export default class {
      * Create youtube api script
      */
     loadYoutubeApi() {
-        let tag,
-            firstScriptTag;
+        let tag;
 
         if (!window.iframeApiCreated) {
             tag = document.createElement('script');
             tag.src = 'https://www.youtube.com/iframe_api';
-            firstScriptTag = document.getElementsByTagName('script')[0];
-            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+            document.head.appendChild(tag);
             window.iframeApiCreated = true;
         }
 

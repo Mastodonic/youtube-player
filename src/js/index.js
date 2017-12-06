@@ -4,8 +4,8 @@ import markup from './markup';
 import Helpers from './helpers';
 
 // Styles
-// import '../scss/base.scss';
-// import '../scss/default-skin.scss';
+import '../scss/base.scss';
+import '../scss/default-skin.scss';
 
 export default class {
     constructor(options) {
@@ -167,25 +167,33 @@ export default class {
         }
     }
 
+    loadImage(src) {
+        return new Promise((resolve, reject) => {
+            let img = new Image();
+            img.onload = (e) => resolve(e.target);
+            img.onerror = reject;
+            img.src = src;
+        });
+    }
+
     /**
      * Set the cover image if it's passed as an option
      * otherwise fetch the image from youtrube based on id and size
      */
-    setCoverImage() {
+    async setCoverImage() {
         if (this.domNode.hasAttribute('data-cover-image')) {
             this.options.coverImageSrc = this.domNode.getAttribute('data-cover-image');
         }
 
         if (this.options.coverImageSrc) {
-            let img = new Image();
-            img.src = this.options.coverImageSrc;
-            img.onload = () => {
+            try {
+                await this.loadImage(this.options.coverImageSrc);
                 this.options.coverImage = `background-image: url(${this.options.coverImageSrc}`;
-            };
+            } catch (error) {
+                throw new Error(`Image with src ${this.options.coverImageSrc} could not be loaded`);
+            }
         } else {
-            let img = new Image();
             let imageSize;
-            let src;
 
             switch (this.options.coverImageSize) {
             case 'medium':
@@ -202,14 +210,10 @@ export default class {
                 break;
             }
 
-            src = `https://img.youtube.com/vi/${this.options.videoId}/${imageSize}.jpg`;
-
-            img.src = src;
-            img.onload = () => {
-                let srcName = img.width > 150 ? imageSize : '0';
-                this.options.coverImageSrc = `https://img.youtube.com/vi/${this.options.videoId}/${srcName}.jpg`;
-                this.options.coverImage = `background-image: url(${this.options.coverImageSrc})`;
-            };
+            let img = await this.loadImage(`https://img.youtube.com/vi/${this.options.videoId}/${imageSize}.jpg`);
+            let srcName = img.width > 150 ? imageSize : '0';
+            this.options.coverImageSrc = `https://img.youtube.com/vi/${this.options.videoId}/${srcName}.jpg`;
+            this.options.coverImage = `background-image: url(${this.options.coverImageSrc})`;
         }
     }
 
@@ -394,7 +398,7 @@ export default class {
     }
 
     /**
-     * Remove this instanvce from YTPlayers array and
+     * Remove this instance from YTPlayers array and
      * aslo remove the markup from dom
      * @return {[type]} [description]
      */

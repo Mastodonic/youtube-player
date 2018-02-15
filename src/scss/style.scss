@@ -1,4 +1,56 @@
 .c-youtube-player {
+    $grey-light: #f7f7f7;
+    $white: #fff;
+    background: $grey-light;
+    position: relative;
+
+    %center-absolute {
+        bottom: 0;
+        left: 0;
+        margin: auto;
+        position: absolute;
+        right: 0;
+        top: 0;
+    }
+
+    &__inner {
+        position: relative;
+        visibility: hidden;
+        width: 100%;
+
+        &::before {
+            content: '';
+            display: block;
+            padding-top: 56.25%;
+        }
+
+        iframe {
+            height: 100%;
+            left: 0;
+            position: absolute;
+            top: 0;
+            width: 100%;
+        }
+    }
+
+    &__icons {
+        position: relative;
+        width: 12%;
+
+        &::before {
+            content: '';
+            display: table;
+            padding-top: 100%;
+        }
+    }
+
+    &__spinner-wrapper,
+    &__play-button-wrapper {
+        @extend %center-absolute;
+        height: 100%;
+        width: 100%;
+    }
+
     &__spinner {
         height: 100%;
         opacity: 0;
@@ -7,7 +59,7 @@
 
         &::after,
         &::before {
-            background-color: white;
+            background-color: $white;
             border-radius: 50%;
             content: '';
             height: 100%;
@@ -20,17 +72,30 @@
     }
 
     &__play-button {
-        fill: white;
+        fill: $white;
         height: 100%;
         transition: opacity .5s, transform .5s;
         width: 100%;
     }
 
     &__cover {
+        align-items: center;
+        background-color: $grey-light;
+        background-position: center center;
+        background-size: cover;
+        cursor: pointer;
+        display: flex;
+        height: 100%;
+        justify-content: center;
+        left: 0;
+        position: absolute;
+        -webkit-tap-highlight-color: transparent;
+        top: 0;
         transition: opacity .2s, visibility .2s;
+        width: 100%;
 
         &::before {
-            background: black;
+            background: $grey-light;
             content: '';
             height: 100%;
             left: 0;
@@ -74,7 +139,21 @@
             animation-delay: -1s;
         }
     }
+
+    &--is-ready {
+        .c-youtube-player__inner {
+            visibility: visible;
+        }
+    }
+
+    &--cover-is-hidden {
+        .c-youtube-player__cover {
+            opacity: 0;
+            visibility: hidden;
+        }
+    }
 }
+
 
 @keyframes youtube-player-spinner-pulse {
     0%,

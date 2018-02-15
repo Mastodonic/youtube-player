@@ -1,71 +1,75 @@
 {
-    "name": "lazy-youtube-player.js",
-    "author": "Milad Alizadeh",
-    "version": "1.0.7",
-    "description": "A modern lazyloaded youtube player with custom cover image and no dependencies",
-    "main": "dist/lazy-youtube-player.min.js",
-    "dependencies": {},
+    "name": "youtube-player",
+    "author": "",
+    "version": "0.1.0",
+    "description": "",
+    "main": "dist/youtube-player.min.js",
+    "dependencies": {
+    },
     "devDependencies": {
-        "autoprefixer": "^7.1.6",
-        "babel-core": "^6.25.0",
-        "babel-eslint": "^8.0.1",
-        "babel-jest": "^21.2.0",
-        "babel-loader": "^7.1.1",
-        "babel-plugin-es6-promise": "^1.1.1",
-        "babel-plugin-transform-object-rest-spread": "^6.23.0",
+        "autoprefixer": "^7.2.5",
+        "babel-core": "^6.26.0",
+        "babel-eslint": "^8.2.1",
+        "babel-jest": "^22.2.0",
+        "babel-loader": "^7.1.2",
+        "babel-plugin-transform-object-rest-spread": "^6.26.0",
         "babel-plugin-transform-runtime": "^6.23.0",
         "babel-preset-env": "^1.6.1",
-        "clean-webpack-plugin": "^0.1.16",
-        "css-loader": "^0.28.4",
-        "eslint": "^4.8.0",
-        "eslint-config-standard": "^10.2.1",
+        "clean-webpack-plugin": "^0.1.18",
+        "codecov": "^3.0.0",
+        "css-loader": "^0.28.9",
+        "eslint": "^4.17.0",
+        "eslint-config-standard": "^11.0.0-beta.0",
         "eslint-loader": "^1.9.0",
-        "eslint-plugin-html": "^3.2.2",
-        "eslint-plugin-import": "^2.7.0",
-        "eslint-plugin-jest": "^21.2.0",
-        "eslint-plugin-node": "^5.2.0",
-        "eslint-plugin-promise": "^3.5.0",
+        "eslint-plugin-html": "^4.0.2",
+        "eslint-plugin-import": "^2.8.0",
+        "eslint-plugin-jest": "^21.7.0",
+        "eslint-plugin-node": "^6.0.0",
+        "eslint-plugin-promise": "^3.6.0",
         "eslint-plugin-standard": "^3.0.1",
         "extract-text-webpack-plugin": "^3.0.2",
         "html-webpack-plugin": "^2.30.1",
-        "jest": "^21.2.1",
-        "jest-css-modules-transform": "^1.0.2",
-        "node-sass": "^4.6.0",
-        "postcss-encode-background-svgs": "^0.0.4",
-        "postcss-loader": "^2.0.8",
+        "jest": "^22.2.1",
+        "node-sass": "^4.7.2",
+        "postcss-encode-background-svgs": "^1.0.0",
+        "postcss-loader": "^2.1.0",
         "sass-loader": "^6.0.6",
-        "style-loader": "^0.19.0",
-        "webpack": "^3.8.1",
-        "webpack-dev-server": "^2.9.3"
+        "style-loader": "^0.20.1",
+        "webpack": "^3.10.0",
+        "webpack-dev-server": "^2.11.1"
     },
     "jest": {
+        "moduleNameMapper": {
+          "\\.(css|scss)$": "<rootDir>/src/js/__test__/__mocks__/style-mock.js"
+        },
         "moduleFileExtensions": [
             "js",
             "json",
             "node"
         ],
         "transform": {
-            "^.+\\.js$": "<rootDir>/node_modules/babel-jest",
-            ".+\\.(css|styl|less|sass|scss)$": "<rootDir>/node_modules/jest-css-modules-transform"
+            "^.+\\.js$": "<rootDir>/node_modules/babel-jest"
         },
         "mapCoverage": true,
         "collectCoverage": true
     },
     "scripts": {
-        "test": "jest --coverage --verbose && eslint *.js",
-        "test-watch": "jest --watch",
+        "test": "node ./node_modules/jest/bin/jest.js",
+        "test:watch": "npm run test -- --watch --onlyChanged --notify",
         "start": "npm run dev",
         "dev": "node ./node_modules/webpack-dev-server/bin/webpack-dev-server.js --config=webpack.config.dev.js",
         "build": "node ./node_modules/webpack/bin/webpack.js --hide-modules -p --progress",
-        "production": "npm run test && npm run build"
+        "production": "npm run test && npm run build",
+        "report-coverage": "codecov"
     },
+    "keywords": [],
     "repository": {
         "type": "git",
-        "url": "https://github.com/milad-alizadeh/concertina.js"
+        "url": ""
     },
     "bugs": {
-        "url": "https://github.com/milad-alizadeh/concertina.js/issues"
+        "url": ""
     },
-    "homepage": "https://github.com/milad-alizadeh/concertina.js",
+    "homepage": "",
     "license": "MIT"
 }

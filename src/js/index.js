@@ -4,8 +4,7 @@ import markup from './markup';
 import Helpers from './helpers';
 
 // Styles
-import '../scss/base.scss';
-import '../scss/default-skin.scss';
+import '../scss/style.scss';
 
 export default class {
     constructor(options) {
@@ -122,7 +121,11 @@ export default class {
      * set main dom node
      */
     setDomNode() {
-        this.domNode = this.options.element;
+        if (this.options.element) {
+            this.domNode = this.options.element;
+        } else {
+            throw new Error('You need provide a container element for the youtube player');
+        }
     }
 
     /**
@@ -167,13 +170,11 @@ export default class {
         }
     }
 
-    loadImage(src) {
-        return new Promise((resolve, reject) => {
-            let img = new Image();
-            img.onload = (e) => resolve(e.target);
-            img.onerror = reject;
-            img.src = src;
-        });
+    loadImage(src, Callback) {
+        let img = new Image();
+        img.src = src;
+        img.onload = (e) => console.log(e);
+        img.onerror = (e) => callback(e.target);
     }
 
     /**
